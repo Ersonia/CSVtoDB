@@ -24,59 +24,7 @@ class ImportController extends Controller
                         while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
                         {
                             if( $count != 0 ){
-                                $CDEM   = $filepart[1] + $filepart[2] + $filepart[3];
-                                $isData = \App\Bdpb::where('CDEM', $CDEM)
-                                                ->where('IDGP', $filepart[2])
-                                                ->where('IDEN', $filepart[3])
-                                                ->where('IDDV', $filepart[4])
-                                                ->where('TPPD', $emapData[0])
-                                                ->where('ORVT', $emapData[1])
-                                                ->where('OFVT', $emapData[2])
-                                                ->where('VEVT', $emapData[3])
-                                                ->where('NRPD', $emapData[4])
-                                                ->where('FEPD', $emapData[5])
-                                                ->where('HRPD', $emapData[6])
-                                                ->where('CPPD', $emapData[7])
-                                                ->where('OCPD', $emapData[8])
-                                                ->where('FCOC', $emapData[9])
-                                                ->where('FVOC', $emapData[10])
-                                                ->where('FPEN', $emapData[11])
-                                                ->where('STPD', $emapData[12])
-                                                ->where('DSST', $emapData[13])
-                                                ->where('DRST', $emapData[14])
-                                                ->where('CIST', $emapData[15])
-                                                ->where('CPST', $emapData[16])
-                                                ->where('TEST', $emapData[17])
-                                                ->where('PAST', $emapData[18])                                                
-                                                ->where('DSPY', $emapData[20])
-                                                ->where('BTPD', $emapData[21])
-                                                ->where('DSBT', $emapData[22])
-                                                ->where('CUBT', $emapData[23])
-                                                ->where('SPPD', $emapData[24])
-                                                ->where('DSSP', $emapData[25])
-                                                ->where('DRSP', $emapData[26])
-                                                ->where('CISP', $emapData[27])
-                                                ->where('CPSP', $emapData[28])
-                                                ->where('TESP', $emapData[29])
-                                                ->where('PASP', $emapData[30])
-                                                ->where('INSP', $emapData[31])
-                                                ->where('RGSP', $emapData[32])                                                 
-                                                ->where('ICPD', $emapData[34])
-                                                ->where('LIPD', $emapData[35])
-                                                ->where('PESP', $emapData[36])
-                                                ->where('CTSP', $emapData[37])
-                                                ->where('DSCT', $emapData[38])
-                                                ->where('UNPD', $emapData[39])
-                                                ->where('UMPD', $emapData[40])
-                                                ->where('PNPD', $emapData[41])
-                                                ->where('PBPD', $emapData[42])
-                                                ->where('VOPD', $emapData[43])
-                                                ->where('VLPD', $emapData[44])
-                                                ->where('MOPD', $emapData[45])
-                                                ->where('PLPD', $emapData[46])
-                                                ->where('STEN', $emapData[47])->get();
                                 
-                              if( count($isData ) == 0 ){
                                         $CDEM   = $filepart[1] + $filepart[2] + $filepart[3];
                                         $model        = new \App\Bdpb;                                       
                                        $model->CDEM     = $CDEM;
@@ -135,8 +83,6 @@ class ImportController extends Controller
                                        }else{
                                            echo "Not Saved";
                                        }
-                                  
-                              }
                             }  
                             $count++;    
                         }
@@ -223,6 +169,25 @@ class ImportController extends Controller
                                        $is_saved        = $model->save();
                                        if($is_saved){
                                            echo "data for file " . $filepart[0] . " has been saved. <br>";
+                                           $isData = \App\Mercaderia_lismat::where('Sku', $model->MTPD)->get();
+                                           if(count($isData) == 0){
+                                               $model1                  = new \App\Mercaderia_lismat;   
+                                                $model1->Sku             = $model->MTPD;
+                                                $model1->Descripcion     = $model->DSMT;
+                                                $model1->UOM             = $model->UMIT;
+                                                $PesoNeto                = $model->PNIT / $model->CPIT;
+                                                $model1->PesoNeto        = $PesoNeto;
+                                                $model1->PesoBruto       = $model->MTPD;
+                                                $Volumen                 = $model->VOIT / $model->CPIT;
+                                                $model1->Volumen         = $Volumen;
+                                                $CantxPallet             = $model->PLIT / $model->CPIT;
+                                                $model1->CantxPallet     = $CantxPallet;
+                                                $is_saved   = $model1->save();
+                                                if($is_saved){
+                                                    echo "New SKU has been Saved.<br>";
+                                                }
+                                           }
+                                           
                                        }else{
                                            echo "Not Saved";
                                        }
@@ -241,10 +206,8 @@ class ImportController extends Controller
                         while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
                         {
                             if( $count != 0 ){
-                                 
-                               
                                         
-                                        $model        = new \App\Bdsh;                                       
+                                       $model        = new \App\Bdsh;                                       
                                        
                                        $model->TTEN     = $emapData[0];
                                        $model->FETT     = $emapData[1];
