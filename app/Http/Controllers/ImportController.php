@@ -67,7 +67,21 @@ class ImportController extends Controller
                                        $model->DSPY     = $emapData[20];
                                        $model->BTPD     = $emapData[21];
                                        $model->DSBT     = $emapData[22];
-                                       $model->CUBT     = $emapData[23];
+                                       $CUBT            = $emapData[23];
+                                       
+                                       $isData = \App\Soldto_soldto::where('CodigoIncoterm', $CUBT)->get();
+                                       if(count($isData) == 0){
+                                           $vmodel                      = new \App\Soldto_soldto;
+                                           $vmodel->Sold_to             = $CUBT;
+                                           //$vmodel->GRENDI_ID           = $CDEM;
+                                           $vmodel->save();
+                                           $model->CUBT                 = $vmodel->SOLDTO_ID;
+                                           echo "Soldto_soldto has been saved into database.<br>";
+                                       }else{
+                                           //echo "<pre>";
+                                           //print_r($isData);exit;
+                                           $model->CUBT     = $isData[0]->SOLDTO_ID;
+                                       }
                                        $model->SPPD     = $emapData[24];
                                        $model->DSSP     = $emapData[25];
                                        $model->DRSP     = $emapData[26];
@@ -95,7 +109,7 @@ class ImportController extends Controller
                                        $model->LIPD     = $emapData[35];
                                        $model->PESP     = $emapData[36];
                                        $CTSP            = $emapData[37];
-                                       $isData = \App\Centro_centro::where('Codigo_empresa_ID', $CTSP)->get();
+                                       $isData = \App\Centro_centro::where('Codigo_empresa_ID', $CTSP)->where('GRENDI_ID', $CDEM)->get();
                                        if(count($isData) == 0){
                                            $vmodel                      = new \App\Centro_centro;
                                            $vmodel->Codigo_empresa_ID	= $CTSP;
