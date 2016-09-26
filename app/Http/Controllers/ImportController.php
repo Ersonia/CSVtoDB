@@ -35,13 +35,13 @@ class ImportController extends Controller
                                        $model->ORVT     = $emapData[1];
                                        $model->OFVT     = $emapData[2];
                                        $VEVT            = $emapData[3];
-                                       $isData = \App\Vendedor_vended::where('Codigo_empresa_ID', $VEVT)->get();
+                                       $isData = \App\Vendedor_vended::where('Codigo_empresa_ID', $VEVT)->where('GRENDI_ID', $CDEM)->get();
                                        if(count($isData) == 0){
                                            $vmodel                      = new \App\Vendedor_vended;
                                            $vmodel->Codigo_empresa_ID	= $VEVT;
                                            $vmodel->GRENDI_ID           = $CDEM;
                                            $vmodel->save();
-                                           $model->VEVT                 = $vmodel->id;
+                                           $model->VEVT                 = $vmodel->ID_Vendedor;
                                            echo "Vendor has been saved into database.<br>";
                                        }else{
                                            //echo "<pre>";
@@ -76,11 +76,39 @@ class ImportController extends Controller
                                        $model->TESP     = $emapData[29];
                                        $model->PASP     = $emapData[30];
                                        $model->INSP     = $emapData[31];
-                                       $model->RGSP     = $emapData[32];                                        
-                                       $model->ICPD     = $emapData[34];
+                                       $model->RGSP     = $emapData[32];
+                                       $ICPD            = $emapData[34];
+                                       $isData = \App\Incotermsuniversal_incote::where('CodigoIncoterm', $ICPD)->get();
+                                       if(count($isData) == 0){
+                                           $vmodel                      = new \App\Incotermsuniversal_incote;
+                                           $vmodel->CodigoIncoterm	= $ICPD;
+                                           //$vmodel->GRENDI_ID           = $CDEM;
+                                           $vmodel->save();
+                                           $model->ICPD                 = $vmodel->ID_Incoterm;
+                                           echo "Incotermsuniversal has been saved into database.<br>";
+                                       }else{
+                                           //echo "<pre>";
+                                           //print_r($isData);exit;
+                                           $model->ICPD     = $isData[0]->ID_Incoterm;
+                                       }
+                                       //$model->ICPD     = $emapData[34];
                                        $model->LIPD     = $emapData[35];
                                        $model->PESP     = $emapData[36];
-                                       $model->CTSP     = $emapData[37];
+                                       $CTSP            = $emapData[37];
+                                       $isData = \App\Centro_centro::where('Codigo_empresa_ID', $CTSP)->get();
+                                       if(count($isData) == 0){
+                                           $vmodel                      = new \App\Centro_centro;
+                                           $vmodel->Codigo_empresa_ID	= $CTSP;
+                                           $vmodel->GRENDI_ID           = $CDEM;
+                                           $vmodel->save();
+                                           $model->CTSP                 = $vmodel->ID_Centro;
+                                           echo "Centro has been saved into database.<br>";
+                                       }else{
+                                           //echo "<pre>";
+                                           //print_r($isData);exit;
+                                           $model->CTSP     = $isData[0]->ID_Centro;
+                                       }
+                                       //$model->CTSP     = $emapData[37];
                                        $model->DSCT     = $emapData[38];
                                        $model->UNPD     = $emapData[39];
                                        $model->UMPD     = $emapData[40];
