@@ -25,7 +25,7 @@ class ImportController extends Controller
                         {
                             if( $count != 0 ){
                                 
-                                        $CDEM   = $filepart[1] + $filepart[2] + $filepart[3];
+                                        $CDEM   = $filepart[1] . $filepart[2] . $filepart[3];
                                         $model        = new \App\Bdpb;                                       
                                        $model->CDEM     = $CDEM;
                                        $model->IDGP     = $filepart[2];
@@ -34,7 +34,21 @@ class ImportController extends Controller
                                        $model->TPPD     = $emapData[0];
                                        $model->ORVT     = $emapData[1];
                                        $model->OFVT     = $emapData[2];
-                                       $model->VEVT     = $emapData[3];
+                                       $VEVT            = $emapData[3];
+                                       $isData = \App\Vendedor_vended::where('Codigo_empresa_ID', $VEVT)->get();
+                                       if(count($isData) == 0){
+                                           $vmodel                      = new \App\Vendedor_vended;
+                                           $vmodel->Codigo_empresa_ID	= $VEVT;
+                                           $vmodel->GRENDI_ID           = $CDEM;
+                                           $vmodel->save();
+                                           $model->VEVT                 = $vmodel->id;
+                                           echo "Vendor has been saved into database.<br>";
+                                       }else{
+                                           //echo "<pre>";
+                                           //print_r($isData);exit;
+                                           $model->VEVT     = $isData[0]->ID_Vendedor;
+                                       }
+                                       
                                        $model->NRPD     = $emapData[4];
                                        $model->FEPD     = $emapData[5];
                                        $model->HRPD     = $emapData[6];
@@ -236,7 +250,7 @@ class ImportController extends Controller
                         }
                         fclose($file);
                         rename('CSV/' . $filename, 'importedCSV/' . $filename);  
-                    }   
+                    }  
                    
                   }  
              }
