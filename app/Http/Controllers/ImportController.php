@@ -25,8 +25,8 @@ class ImportController extends Controller
                         {
                             if( $count != 0 ){
                                 
-                                        $CDEM   = $filepart[1] . $filepart[2] . $filepart[3];
-                                        $model        = new \App\Bdpb;                                       
+                                       $CDEM            = $filepart[1] . $filepart[2] . $filepart[3];
+                                       $model           = new \App\Bdpb;                                       
                                        $model->CDEM     = $CDEM;
                                        $model->IDGP     = $filepart[2];
                                        $model->IDEN     = $filepart[3];
@@ -69,7 +69,7 @@ class ImportController extends Controller
                                        $model->DSBT     = $emapData[22];
                                        $CUBT            = $emapData[23];
                                        
-                                       $isData = \App\Soldto_soldto::where('CodigoIncoterm', $CUBT)->get();
+                                       $isData = \App\Soldto_soldto::where('Sold_to', $CUBT)->get();
                                        if(count($isData) == 0){
                                            $vmodel                      = new \App\Soldto_soldto;
                                            $vmodel->Sold_to             = $CUBT;

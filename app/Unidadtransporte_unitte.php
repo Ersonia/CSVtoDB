@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Unidadtransporte_unitte extends Model
 {
-    protected $table = 'unidadtransporte_unitte';
+    protected $table = 'UnidadTransporte_UNITTE';
     public $timestamps = false;
 }

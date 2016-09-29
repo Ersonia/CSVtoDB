@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Centro_centro extends Model
 {
-    protected $table = 'centro_centro';
+    protected $table = 'CENTRO_CENTRO';
     public $timestamps = false;
 }

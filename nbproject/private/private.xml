@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/wamp/www/CSVtoDB/app/Http/Controllers/Controller.php</file>
-            <file>file:/E:/wamp/www/CSVtoDB/app/Http/Controllers/ImportController.php</file>
+            <file>file:/E:/wamp/www/CSVtoDB/app/Bdsh.php</file>
+            <file>file:/E:/wamp/www/CSVtoDB/app/Centro_centro.php</file>
             <file>file:/E:/wamp/www/CSVtoDB/app/Chofer_chofer.php</file>
-            <file>file:/E:/wamp/www/CSVtoDB/app/Transporteuniversal_emptte.php</file>
-            <file>file:/E:/wamp/www/CSVtoDB/app/Http/routes.php</file>
+            <file>file:/E:/wamp/www/CSVtoDB/app/Bdit.php</file>
+            <file>file:/E:/wamp/www/CSVtoDB/app/Bdpb.php</file>
+            <file>file:/E:/wamp/www/CSVtoDB/app/Incotermsuniversal_incote.php</file>
         </group>
     </open-files>
 </project-private>
