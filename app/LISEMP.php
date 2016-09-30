@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Vendedor_vended extends Eloquent
+class LISEMP extends Eloquent
 {
     protected $connection = 'mysql2';
 
-    protected $table = 'VENDED';
+    protected $table = 'LISEMP';
     public $timestamps = false;
 }

@@ -65,6 +65,19 @@ return [
             'strict' => false,
             'engine' => null,
         ],
+        'mysql2' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST2', 'localhost'),
+            'port' => env('DB_PORT2', '3306'),
+            'database' => env('DB_DATABASE2', 'rukas_dbase'),
+            'username' => env('DB_USERNAME2', 'root'),
+            'password' => env('DB_PASSWORD2', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
 
         'pgsql' => [
             'driver' => 'pgsql',

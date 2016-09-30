@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -35,11 +35,30 @@ class ImportController extends Controller
                                        $model->ORVT     = $emapData[1];
                                        $model->OFVT     = $emapData[2];
                                        $VEVT            = $emapData[3];
-                                       $isData = \App\Vendedor_vended::where('Codigo_empresa_ID', $VEVT)->where('GRENDI_ID', $CDEM)->get();
+                                       if($VEVT == ''){
+                                           $VEVT        = 0;
+                                       }
+                                       $vmodel          = new \App\Vendedor_vended;
+                                       $vmodel->setConnection('mysql2');
+
+                                       $isData = $vmodel::where('ID_Empresa', $VEVT)->where('ID_Grendi', $CDEM)->get();
+                                       
                                        if(count($isData) == 0){
-                                           $vmodel                      = new \App\Vendedor_vended;
-                                           $vmodel->Codigo_empresa_ID	= $VEVT;
-                                           $vmodel->GRENDI_ID           = $CDEM;
+                                           
+                                           $grendi              = new \App\GRENDI;
+                                           $grendi->setConnection('mysql2');
+                                           $grendi->ID_Grendi   = $CDEM;
+                                           $grendi->save();
+                                           
+                                           $grendi              = new \App\LISEMP;
+                                           $grendi->setConnection('mysql2');
+                                           $grendi->ID_Empresa   = $VEVT;
+                                           $grendi->save();
+                                           
+                                           $vmodel          = new \App\Vendedor_vended;
+                                           $vmodel->setConnection('mysql2');
+                                           $vmodel->ID_Empresa          = $VEVT;
+                                           $vmodel->ID_Grendi           = $CDEM;
                                            $vmodel->save();
                                            $model->VEVT                 = $vmodel->ID_Vendedor;
                                            echo "Vendor has been saved into database.<br>";
@@ -68,20 +87,23 @@ class ImportController extends Controller
                                        $model->BTPD     = $emapData[21];
                                        $model->DSBT     = $emapData[22];
                                        $CUBT            = $emapData[23];
+                                       /*
+                                       $soldto          = new \App\Soldto_soldto;
+                                       $soldto->setConnection('mysql2');
+                                       $isData = $soldto::where('ID_SoldTo', $CUBT)->get();
                                        
-                                       $isData = \App\Soldto_soldto::where('Sold_to', $CUBT)->get();
                                        if(count($isData) == 0){
                                            $vmodel                      = new \App\Soldto_soldto;
-                                           $vmodel->Sold_to             = $CUBT;
-                                           //$vmodel->GRENDI_ID           = $CDEM;
+                                           $vmodel->setConnection('mysql2');
+                                           $vmodel->ID_SoldTo          = $CUBT;
                                            $vmodel->save();
-                                           $model->CUBT                 = $vmodel->SOLDTO_ID;
+                                           $model->CUBT                 = $vmodel->ID_SoldTo;
                                            echo "Soldto_soldto has been saved into database.<br>";
                                        }else{
-                                           //echo "<pre>";
-                                           //print_r($isData);exit;
-                                           $model->CUBT     = $isData[0]->SOLDTO_ID;
+                                           $model->CUBT     = $isData[0]->ID_SoldTo;
                                        }
+                                        * 
+                                        */
                                        $model->SPPD     = $emapData[24];
                                        $model->DSSP     = $emapData[25];
                                        $model->DRSP     = $emapData[26];
@@ -92,10 +114,13 @@ class ImportController extends Controller
                                        $model->INSP     = $emapData[31];
                                        $model->RGSP     = $emapData[32];
                                        $ICPD            = $emapData[34];
-                                       $isData = \App\Incotermsuniversal_incote::where('CodigoIncoterm', $ICPD)->get();
+                                       $incoterm        = new \App\Incotermsuniversal_incote;
+                                       $incoterm->setConnection('mysql2');
+                                       $isData = $incoterm::where('ID_Incoterm', $ICPD)->get();
                                        if(count($isData) == 0){
                                            $vmodel                      = new \App\Incotermsuniversal_incote;
-                                           $vmodel->CodigoIncoterm	= $ICPD;
+                                           $vmodel->setConnection('mysql2');
+                                           $vmodel->ID_Incoterm	= $ICPD;
                                            //$vmodel->GRENDI_ID           = $CDEM;
                                            $vmodel->save();
                                            $model->ICPD                 = $vmodel->ID_Incoterm;
@@ -109,11 +134,24 @@ class ImportController extends Controller
                                        $model->LIPD     = $emapData[35];
                                        $model->PESP     = $emapData[36];
                                        $CTSP            = $emapData[37];
-                                       $isData = \App\Centro_centro::where('Codigo_empresa_ID', $CTSP)->where('GRENDI_ID', $CDEM)->get();
+                                       $centro          = new \App\Centro_centro;
+                                       $centro->setConnection('mysql2');
+                                       $isData = $centro::where('ID_Empresa', $CTSP)->where('ID_Grendi', $CDEM)->get();
                                        if(count($isData) == 0){
+                                           $grendi              = new \App\LISEMP;
+                                           $grendi->setConnection('mysql2');
+                                           $isData  = $grendi::where('ID_Empresa', $CTSP)->get();
+                                           if(count($isData) == 0){
+                                                $grendi              = new \App\LISEMP;
+                                                $grendi->setConnection('mysql2');
+                                                $grendi->ID_Empresa   = $CTSP;
+                                                $grendi->save();
+                                           }
+                                           
                                            $vmodel                      = new \App\Centro_centro;
-                                           $vmodel->Codigo_empresa_ID	= $CTSP;
-                                           $vmodel->GRENDI_ID           = $CDEM;
+                                           $vmodel->setConnection('mysql2');
+                                           $vmodel->ID_Empresa  	= $CTSP;
+                                           $vmodel->ID_Grendi           = $CDEM;
                                            $vmodel->save();
                                            $model->CTSP                 = $vmodel->ID_Centro;
                                            echo "Centro has been saved into database.<br>";
