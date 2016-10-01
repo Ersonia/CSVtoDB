@@ -57,7 +57,9 @@ class ImportController extends Controller
                                            
                                            $grendi              = new \App\GRENDI;
                                            $grendi->setConnection('mysql2');
-                                           $is_count            = $grendi::where('ID_Grendi', $CDEM)->where('ID_Empresa', $VEVT)->get();
+                                           
+                                           $is_count            = $grendi::where('ID_Grendi', $CDEM)->get();
+                                           
                                            if(count($is_count) == 0){
                                                $grendi              = new \App\GRENDI;
                                                 $grendi->setConnection('mysql2');
