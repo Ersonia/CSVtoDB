@@ -34,7 +34,7 @@ class ImportController extends Controller
                                        $model->TPPD     = $emapData[0];
                                        $model->ORVT     = $emapData[1];
                                        $model->OFVT     = $emapData[2];
-                                       $VEVT            = $filepart[1];
+                                       $VEVT            = $filepart[4];
                                        if($VEVT == ''){
                                            $VEVT        = 0;
                                        }
