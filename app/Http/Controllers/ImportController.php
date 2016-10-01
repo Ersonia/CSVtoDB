@@ -44,15 +44,6 @@ class ImportController extends Controller
                                        $isData = $vmodel::where('ID_Empresa', $VEVT)->where('ID_Grendi', $CDEM)->get();
                                        
                                        if(count($isData) == 0){
-                                           $grendi              = new \App\GRENDI;
-                                           $grendi->setConnection('mysql2');
-                                           $is_count            = $grendi::where('ID_Grendi', $CDEM)->get();
-                                           if(count($is_count) == 0){
-                                               $grendi              = new \App\GRENDI;
-                                                $grendi->setConnection('mysql2');
-                                                $grendi->ID_Grendi   = $CDEM;
-                                                $grendi->save();
-                                           }
                                            $grendi              = new \App\LISEMP;
                                            $grendi->setConnection('mysql2');
                                            $is_count            = $grendi::where('ID_Empresa', $VEVT)->get();
@@ -62,6 +53,19 @@ class ImportController extends Controller
                                                 $grendi->ID_Empresa   = $VEVT;
                                                 $grendi->save();
                                            }
+                                           
+                                           
+                                           $grendi              = new \App\GRENDI;
+                                           $grendi->setConnection('mysql2');
+                                           $is_count            = $grendi::where('ID_Grendi', $CDEM)->where('ID_Empresa', $VEVT)->get();
+                                           if(count($is_count) == 0){
+                                               $grendi              = new \App\GRENDI;
+                                                $grendi->setConnection('mysql2');
+                                                $grendi->ID_Grendi   = $CDEM;
+                                                $grendi->ID_Empresa   = $VEVT;
+                                                $grendi->save();
+                                           }
+                                           
                                            
                                            $vmodel          = new \App\Vendedor_vended;
                                            $vmodel->setConnection('mysql2');
