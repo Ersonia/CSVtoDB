@@ -87,23 +87,22 @@ class ImportController extends Controller
                                        $model->BTPD     = $emapData[21];
                                        $model->DSBT     = $emapData[22];
                                        $CUBT            = $emapData[23];
-                                       /*
+                                      
                                        $soldto          = new \App\Soldto_soldto;
                                        $soldto->setConnection('mysql2');
-                                       $isData = $soldto::where('ID_SoldTo', $CUBT)->get();
+                                       $isData = $soldto::where('Cuit', $CUBT)->get();
                                        
                                        if(count($isData) == 0){
                                            $vmodel                      = new \App\Soldto_soldto;
                                            $vmodel->setConnection('mysql2');
-                                           $vmodel->ID_SoldTo          = $CUBT;
+                                           $vmodel->Cuit                = $CUBT;
                                            $vmodel->save();
                                            $model->CUBT                 = $vmodel->ID_SoldTo;
                                            echo "Soldto_soldto has been saved into database.<br>";
                                        }else{
                                            $model->CUBT     = $isData[0]->ID_SoldTo;
                                        }
-                                        * 
-                                        */
+                                        
                                        $model->SPPD     = $emapData[24];
                                        $model->DSSP     = $emapData[25];
                                        $model->DRSP     = $emapData[26];
